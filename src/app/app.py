@@ -104,7 +104,8 @@ def main():
 
         # Add a divider for visual separation
         st.divider()
-
+        st.caption('Recommendations')
+        
         # Create buttons for the recommended news headlines
         recom0 = st.button(st.session_state.recommendations[0])
         recom1 = st.button(st.session_state.recommendations[1])
