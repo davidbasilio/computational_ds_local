@@ -5,8 +5,11 @@ import os
 
 # Function to load data from a CSV file
 def load_data():
-    path = os.path.join(os.path.dirname(__file__), '../..', 'data', 'output', 'recommender_big_clusters_with_data.csv')
-    df = pd.read_csv(path)
+    path1 = os.path.join(os.path.dirname(__file__), '../..', 'data', 'output', 'recommender_big_clusters_with_data1.csv')
+    path2 = os.path.join(os.path.dirname(__file__), '../..', 'data', 'output', 'recommender_big_clusters_with_data1.csv')
+    df1 = pd.read_csv(path1)
+    df2 = pd.read_csv(path2)
+    df = pd.concat([df1, df2], ignore_index=True)
     return df
 
 # Function to extract text from the dataframe based on the actual news headline
