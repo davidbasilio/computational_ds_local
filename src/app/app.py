@@ -33,14 +33,22 @@ def generate_recommendations(actual_news, df):
 # Function to load DBSCAN plots from HTML files
 def load_dbscan():
     path = os.path.join(os.path.dirname(__file__), 'templates')
-    # Replace this with your actual code to generate plots
-    with open(os.path.join(path, '3d_plot_word2vec.html'), "r", encoding='utf-8') as file:
+    with open(os.path.join(path, '3d_plot_word2vec_50.html'), "r", encoding='utf-8') as file:
         fig1 = file.read()
-
-    with open(os.path.join(path, '3d_plot_tfidf.html'), "r", encoding='utf-8') as file:
+    with open(os.path.join(path, '3d_plot_word2vec_30.html'), "r", encoding='utf-8') as file:
         fig2 = file.read()
+    with open(os.path.join(path, '3d_plot_word2vec_15.html'), "r", encoding='utf-8') as file:
+        fig3 = file.read()
+    with open(os.path.join(path, '3d_plot_tfidf_15.html'), "r", encoding='utf-8') as file:
+        fig4 = file.read()
+    return fig1, fig2, fig3, fig4
 
-    return fig1, fig2
+# Function to update the current index based on the arrow button click
+def update_index(direction):
+    if direction == "next":
+        st.session_state.current_index = (st.session_state.current_index + 1) % 4
+    elif direction == "prev":
+        st.session_state.current_index = (st.session_state.current_index - 1) % 4
 
 # Function to load LDA plot from an HTML file
 def load_lda():
@@ -78,18 +86,10 @@ def main():
     col1, col2 = st.columns([3,2])
 
     with col1:
-        # Function to update the current index based on the arrow button click
-        def update_index(direction):
-            if direction == "next":
-                st.session_state.current_index = (st.session_state.current_index + 1) % 2
-            elif direction == "prev":
-                st.session_state.current_index = (st.session_state.current_index - 1) % 2
-
         st.markdown("## Graphs")
 
-        # Display the current image
+        # Display the current DBSCAN image
         st.components.v1.html(load_dbscan()[st.session_state.current_index], height=600, width=800)
-
 
     with col2:     
         # Create a section header
@@ -133,6 +133,7 @@ def main():
 
         st.divider()
     
+    # Display the LDA image
     st.components.v1.html(load_lda(), height=800)
 
     # Create a three-column layout
@@ -141,9 +142,11 @@ def main():
     # Buttons to navigate between DBSCAN plots
     if col3.button("← Previous"):
         update_index("prev")
+        st.rerun()
 
     if col4.button("Next →"):
         update_index("next")
+        st.rerun()
 
 if __name__ == "__main__":
     main()
